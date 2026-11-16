@@ -31,6 +31,14 @@ It ends by printing your endpoint URL and API key. Keep that output.
 4. **Launch**: kills any old server on the port, then starts `llama-server` in the background (`nohup`, log at `/workspace/llama-server.log`) with all layers on the GPU, 8192 context, flash attention, bound to `0.0.0.0:5000`.
 5. **Health check + printout**: waits until the server answers, then prints the SillyTavern endpoint and the API key.
 
+## Using Vast.ai instead of RunPod
+
+Same script, same one command. Differences:
+
+- Template: **PyTorch (Vast)** — the official one, CUDA 12 preinstalled. Before renting, **edit the template to expose port 5000**, set disk to **~40 GB**, and pick a **verified** RTX 3090 host, **On-Demand** (not Interruptible).
+- On Vast, `/workspace` is the instance disk: it survives stops but is **wiped when the instance is destroyed**. No problem — re-running the one command re-downloads everything automatically (a few minutes for the model).
+- There is no proxy URL. Your endpoint is `http://<public IP>:<external port>/v1` — after the instance starts, the **Instances** tab shows the public IP and the external port forwarded to 5000. The script prints this reminder too.
+
 ## Connect SillyTavern (on your Mac)
 
 You no longer need the local llama-server terminal at all. Just SillyTavern:

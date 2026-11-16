@@ -66,17 +66,21 @@ for i in $(seq 1 90); do
   sleep 2
 done
 
-POD_ID="${RUNPOD_POD_ID:-YOUR_POD_ID}"
 echo ""
 echo "============================================================"
-echo "  llama-server is UP on your 3090"
+echo "  llama-server is UP on port $PORT"
 echo ""
 echo "  SillyTavern endpoint (Custom / OpenAI-compatible):"
-echo "  https://${POD_ID}-${PORT}.proxy.runpod.net/v1"
+if [ -n "${RUNPOD_POD_ID:-}" ]; then
+  echo "  https://${RUNPOD_POD_ID}-${PORT}.proxy.runpod.net/v1"
+else
+  echo "  http://<instance public IP>:<external port mapped to $PORT>/v1"
+  echo "  (Vast.ai: the Instances tab shows the IP and forwarded port.)"
+fi
 echo ""
 echo "  API key: $API_KEY"
 echo ""
 echo "  Watch it work:  tail -f $WORK/llama-server.log"
-echo "  When done: TERMINATE the pod (GPU billing stops;"
-echo "  the model stays on your volume for next time)."
+echo "  When done: stop/terminate the instance to stop billing."
+echo "  Everything needed for next time stays in /workspace."
 echo "============================================================"
