@@ -6,10 +6,10 @@
 set -euo pipefail
 
 # ---------- settings (edit these to change the model) ----------
-MODEL_REPO="bartowski/L3-8B-Stheno-v3.2-GGUF"
-MODEL_FILE="L3-8B-Stheno-v3.2-Q8_0.gguf"
+MODEL_REPO="QuantFactory/Llama-3.1-8B-Stheno-v3.4-GGUF"
+MODEL_FILE="Llama-3.1-8B-Stheno-v3.4.Q8_0.gguf"
 PORT=5000
-CTX=8192
+CTX=32768
 LLAMA_VER="b12444"
 # ---------------------------------------------------------------
 
@@ -55,6 +55,7 @@ sleep 1
 export LD_LIBRARY_PATH="$LLAMA_DIR:/usr/local/cuda/lib64:${LD_LIBRARY_PATH:-}"
 echo ">> Starting llama-server on port $PORT..."
 nohup "$LLAMA_DIR/llama-server" -m "$MODEL_PATH" -ngl 99 -c "$CTX" -fa on \
+  -ctk q8_0 -ctv q8_0 \
   --host 0.0.0.0 --port "$PORT" --api-key "$API_KEY" \
   > "$WORK/llama-server.log" 2>&1 &
 

@@ -2,7 +2,7 @@
 
 One command that turns a fresh RunPod GPU pod into a llama.cpp server for SillyTavern. Everything heavy (llama.cpp, the model, your API key) is stored on your RunPod **network volume**, so it downloads once and every future pod starts in seconds.
 
-Default model: **L3-8B-Stheno-v3.2 Q8_0** (best-quality 8B quant; ~8.5 GB, trivial for a 24 GB 3090, ~100 tok/s).
+Default model: **Llama-3.1-8B-Stheno-v3.4 Q8_0** (best-quality 8B quant, ~8.5 GB). The v3.4 build sits on Llama 3.1, which was trained for very long context — so the script runs it at **32768 context** with a compressed (q8) KV cache. Total VRAM use is ~11 GB on the pod GPU, leaving big headroom, at ~100 tok/s.
 
 ## Deploy the pod (RunPod website)
 
@@ -60,8 +60,8 @@ In SillyTavern (phone or Mac):
 Edit the two lines at the top of `setup.sh` (here on GitHub, then re-run the one command — or edit the copy at `/workspace/setup.sh` on the pod):
 
 ```bash
-MODEL_REPO="bartowski/L3-8B-Stheno-v3.2-GGUF"
-MODEL_FILE="L3-8B-Stheno-v3.2-Q8_0.gguf"
+MODEL_REPO="QuantFactory/Llama-3.1-8B-Stheno-v3.4-GGUF"
+MODEL_FILE="Llama-3.1-8B-Stheno-v3.4.Q8_0.gguf"
 ```
 
 A 24 GB 3090 also fits 14B models at Q8/Q6 and 32B models at Q4 (tight, shorter context). New downloads land on the volume and persist.
